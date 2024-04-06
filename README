@@ -1,1 +1,16 @@
-hello
+Algorithm 3:
+for x = 0 to nxs do
+    for oo = 0 to nOrthogonal.Orders di
+        for sf = 0 to nSpat_filters do 
+            for tf = 0 to nTemp_filters do
+                for fr = 0 <= nFrames - L do
+                    frame = getframes(spac_filt, oo, sf, tf, fd)
+                    for all p = pixel in frame do
+                        I = space_filt[sf][tf][p]
+                        R^x[oo][sf][tf][p] <- [G^x tensor I]
+                    end for
+                end for
+            end for
+        end for
+    end for
+end for
