@@ -4,6 +4,8 @@
 
 // Define the spatial filter function
 __device__ float get_spatial_filter(int sf, float x, float y, float sigma) {
+    // Implementing the provided formula for the spatial filter
+
     // Calculate Hermite polynomials
     float Hn_x = 1.0f;
     float Hn_y = 1.0f;
@@ -11,14 +13,6 @@ __device__ float get_spatial_filter(int sf, float x, float y, float sigma) {
         Hn_x *= x / (sqrt(2 * sigma));
         Hn_y *= y / ((sigma) * sqrt(2));
     }
-    /*sf is the spatial filter index. 
-    It represents the order of the spatial filter, 
-    which determines the complexity of the filter 
-    and how many times it's applied to the input data. 
-    For example, if sf is 0, the spatial filter would 
-    be a simple filter, whereas if sf is greater than 0,
-    it indicates a more complex filter with higher-order Hermite polynomials.
-    */
 
     // Calculate the exponent term
     float exponent = pow(-1 / ((sigma) * sqrt(2)), 2 * sf);
@@ -31,29 +25,48 @@ __device__ float get_spatial_filter(int sf, float x, float y, float sigma) {
 }
 
 // 2D convolution function
-__device__ float conv2D(float *temp_filt, float S_filters) {
-    // Implementation of 2D convolution goes here
-    return temp_filt * S_filters; // Dummy implementation
+__device__ float conv2D(float *input, int width, int height, int x, int y, float *filter, int filterSize) {
+    float result = 0.0f;
+    int filterRadius = filterSize / 2;
+
+    for (int i = -filterRadius; i <= filterRadius; i++) {
+        for (int j = -filterRadius; j <= filterRadius; j++) {
+            int inputX = x + i;
+            int inputY = y + j;
+
+            // Clamp input indices to image bounds
+            inputX = min(max(inputX, 0), width - 1);
+            inputY = min(max(inputY, 0), height - 1);
+
+            int filterIndex = (i + filterRadius) * filterSize + (j + filterRadius);
+            int inputIndex = inputY * width + inputX;
+
+            result += input[inputIndex] * filter[filterIndex];
+        }
+    }
+
+    return result;
 }
 
 // CUDA kernel function
-__global__ void spat_filt_kernel(float *temp_filt, int nFrames, int L, int nTemp_filters, int nSpat_filters, float *spat_filt) {
-    int sf = blockIdx.x * blockDim.x + threadIdx.x; // Spatial filter index
+__global__ void spat_filt_kernel(float *temp_filt, int nFrames, int L, int nTemp_filters, int nSpat_filters, float *spat_filt, float sigma) {
+    int tf = blockIdx.x * blockDim.x + threadIdx.x; // Temporal filter index
+    int sf = blockIdx.y * blockDim.y + threadIdx.y; // Spatial filter index
 
-    if (sf < nSpat_filters) {
+    if (tf < nTemp_filters && sf < nSpat_filters) {
         // Get spatial filter for this thread
-        float S_filters = get_spatial_filter(sf); // Assuming get_spatial_filter function is implemented
+        float x = blockIdx.z * blockDim.z + threadIdx.z; // x-coordinate within the filter window
+        float y = blockIdx.z * blockDim.z + threadIdx.z; // y-coordinate within the filter window
+        float spatial_filter = get_spatial_filter(sf, x, y, sigma); 
 
-        for (int tf = 0; tf < nTemp_filters; tf++) {
-            for (int fr = 0; fr <= nFrames - L; fr++) {
-                // Get current frame
-                float *frame = getFrames(temp_filt, tf, fr); // Assuming getFrames function is implemented
+        for (int fr = 0; fr <= nFrames - L; fr++) {
+            // Get current frame
+            float *frame = &temp_filt[(tf * (nFrames - L + 1) + fr)];
 
-                // Iterate over pixels within frame
-                for (int p = 0; p < frame_size; p++) {
-                    // Convolve pixel with spatial filter
-                    spat_filt[sf * nTemp_filters * frame_size + tf * frame_size + p] = conv2D(temp_filt[tf * (nFrames - L + 1) + fr * frame_size + p], S_filters);
-                }
+            // Iterate over pixels within frame
+            for (int p = 0; p < frame_size; p++) {
+                // Convolve pixel with spatial filter
+                spat_filt[sf * nTemp_filters * frame_size + tf * frame_size + p] = conv2D(frame, width, height, x, y, spatial_filter, filterSize);
             }
         }
     }
@@ -66,6 +79,10 @@ int main() {
     int nTemp_filters = 3; // Example value
     int nSpat_filters = 2; // Example value
     int frame_size = 10; // Example value
+    float sigma = 1.0f; // Example value
+    int width = 1280; // Example value
+    int height = 720; // Example value
+    int filterSize = 3; // Example value
 
     // Allocate memory for temp_filt and spat_filt
     float *temp_filt, *spat_filt;
@@ -73,9 +90,11 @@ int main() {
     cudaMallocManaged(&spat_filt, nSpat_filters * nTemp_filters * frame_size * sizeof(float));
 
     // Launch CUDA kernel
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (nSpat_filters + threadsPerBlock - 1) / threadsPerBlock;
-    spat_filt_kernel<<<blocksPerGrid, threadsPerBlock>>>(temp_filt, nFrames, L, nTemp_filters, nSpat_filters, spat_filt);
+    dim3 threadsPerBlock(16, 16, 1);
+    dim3 blocksPerGrid((nTemp_filters + threadsPerBlock.x - 1) / threadsPerBlock.x, 
+                       (nSpat_filters + threadsPerBlock.y - 1) / threadsPerBlock.y, 
+                       (frame_size + threadsPerBlock.z - 1) / threadsPerBlock.z);
+    spat_filt_kernel<<<blocksPerGrid, threadsPerBlock>>>(temp_filt, nFrames, L, nTemp_filters, nSpat_filters, spat_filt, sigma);
     cudaDeviceSynchronize();
 
     // Check for errors
