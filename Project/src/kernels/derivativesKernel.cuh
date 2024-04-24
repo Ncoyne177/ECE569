@@ -23,16 +23,16 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
 
     //position of the current pixel
     const int pos = idx + idy*stride;
-
+    const int tid = threadIdx.x + threadIdx.y*blockDim.x;
     // Allocate shared memory for src and target
     float* shared_src = shared_mem;
-    float* shared_target = shared_mem + width * height;
+    float* shared_target = (float*)&shared_src[blockDim.x*blockDim.y];
 
     // Copy src and target into shared memory
     if (idx < width && idy < height)
     {
-        shared_src[pos] = src[pos];
-        shared_target[pos] = target[pos];
+        shared_src[tid] = src[pos];
+        shared_target[tid] = target[pos];
     }
     __syncthreads();
     
@@ -53,13 +53,13 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
         t1 -= target[(idx - 1) + idy*stride ] * 8.0f;
     }
     else{
-        t0  = shared_src[(idx - 2) + idy*stride ];
-        t0 -= shared_src[(idx - 1) + idy*stride ] * 8.0f;
+        t0  = shared_src[tid-2 ];
+        t0 -= shared_src[tid-1 ] * 8.0f;
 
-        t1  = shared_target[(idx - 2) + idy*stride ];
-        t1 -= shared_target[(idx - 1) + idy*stride ] * 8.0f;
+        t1  = shared_target[tid-2 ];
+        t1 -= shared_target[tid-1 ] * 8.0f;
     }
-    if (threadIdx.x >blockDim.x-2){
+    if (threadIdx.x >(blockDim.x-2)){
         t0 += src[(idx + 1) + idy*stride ] * 8.0f; 
         t0 -= src[(idx + 2) + idy*stride ];
 
@@ -67,11 +67,11 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
         t1 -= target[(idx + 2) + idy*stride ];
     }
     else{
-        t0 += shared_src[(idx + 1) + idy*stride ] * 8.0f; 
-        t0 -= shared_src[(idx + 2) + idy*stride ];
+        t0 += shared_src[tid+1] * 8.0f; 
+        t0 -= shared_src[tid+2];
 
-        t1 += target[(idx + 1) + idy*stride ] * 8.0f; 
-        t1 -= target[(idx + 2) + idy*stride ];
+        t1 += shared_target[tid+1] * 8.0f; 
+        t1 -= shared_target[tid+2];
     }
 
     t0 /= 12.0f;
@@ -80,7 +80,7 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
     Ix[pos] = (t0 + t1) * 0.5f;
 
     // temporal derivative simply finds the difference in time
-    Iz[pos] = shared_target[idx + idy*stride ] - shared_src[idx + idy*stride ];
+    Iz[pos] = shared_target[tid ] - shared_src[tid ];
 
     // y derivative
     if (threadIdx.y < 2){
@@ -91,13 +91,13 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
         t1 -= target[idx + (idy - 1)*stride ] * 8.0f;
     }
     else{
-        t0  = shared_src[idx + (idy - 2)*stride ];
-        t0 -= shared_src[idx + (idy - 1)*stride ] * 8.0f;
+        t0  = shared_src[tid - 2*blockDim.x ];
+        t0 -= shared_src[tid - 1*blockDim.x ] * 8.0f;
 
-        t1  = shared_target[idx + (idy - 2)*stride ];
-        t1 -= shared_target[idx + (idy - 1)*stride ] * 8.0f;
+        t1  = shared_target[tid - 2*blockDim.x ];
+        t1 -= shared_target[tid - 1*blockDim.x ] * 8.0f;
     }
-    if (threadIdx.y >blockDim.y-2){
+    if (threadIdx.y >(blockDim.y-2)){
         t0 += src[idx + (idy + 1)*stride ] * 8.0f; 
         t0 -= src[idx + (idy + 2)*stride ];
 
@@ -105,11 +105,11 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
         t1 -= target[idx + (idy + 2)*stride ];
     }
     else{
-        t0 += shared_src[idx + (idy + 1)*stride ] * 8.0f; 
-        t0 -= shared_src[idx + (idy + 2)*stride ];
+        t0 += shared_src[tid + 1*blockDim.x ] * 8.0f; 
+        t0 -= shared_src[tid + 2*blockDim.x ];
 
-        t1 += shared_target[idx + (idy + 1)*stride ] * 8.0f; 
-        t1 -= shared_target[idx + (idy + 2)*stride ];
+        t1 += shared_target[tid + 1*blockDim.x] * 8.0f; 
+        t1 -= shared_target[tid + 2*blockDim.x ];
     }
 
 
@@ -143,6 +143,6 @@ void ComputeDerivatives(const float *I0, const float *I1,
     dim3 gridDim(gridDimX, gridDimY);
 
     // determine shared memory size and call the kernel
-    size_t shared_mem_size = 2 * w * h * sizeof(float);
+    size_t shared_mem_size = 2 * blockDim.x * blockDim.y * sizeof(float);
     ComputeDerivativesKernel<<<gridDim, blockDim, shared_mem_size>>>(w, h, s, Ix, Iy, Iz, I0, I1);
 }

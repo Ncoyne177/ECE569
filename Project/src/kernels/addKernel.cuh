@@ -17,9 +17,9 @@ __global__ void AddKernel(const float *op1, const float *op2, int count, float *
 static void Add(const float *op1, const float *op2, int count, float *sum)
 {
     // initialize gridDim and blockDim
-    dim3 gridDim((count + blockDim.x-1)/blockDim.x );
-    dim3 blockDim(256);
 
+    dim3 blockDim(256);
+    dim3 gridDim((count + blockDim.x-1)/blockDim.x );
     //call kernel
     AddKernel<<<gridDim, blockDim>>>(op1, op2, count, sum);
 }
