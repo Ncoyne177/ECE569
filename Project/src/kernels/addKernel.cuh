@@ -9,7 +9,7 @@ __global__ void AddKernel(const float *op1, const float *op2, int count, float *
     //verify that the thread is in bounds
     if (pos >= count) return;
 
-    //make the addition
+    //make the addition and store it in output vector sum
     sum[pos] = op1[pos] + op2[pos];
 }
 

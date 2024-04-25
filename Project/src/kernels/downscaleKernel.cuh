@@ -1,59 +1,52 @@
-/*
- * Copyright 1993-2015 NVIDIA Corporation.  All rights reserved.
- *
- * NVIDIA Corporation and its licensors retain all intellectual property and
- * proprietary rights in and to this software and related documentation.
- * Any use, reproduction, disclosure, or distribution of this software
- * and related documentation without an express license agreement from
- * NVIDIA Corporation is strictly prohibited.
- *
- * Please refer to the applicable NVIDIA end user license agreement (EULA)
- * associated with this source code for terms and conditions that govern
- * your use of this NVIDIA software.
- *
- */
-
 #include "../common.cuh"
 
-///////////////////////////////////////////////////////////////////////////////
-/// \brief downscale image
-///
-/// CUDA kernel, relies heavily on texture unit
-/// \param[in]  width   image width
-/// \param[in]  height  image height
-/// \param[in]  stride  image stride
-/// \param[out] out     result
-///////////////////////////////////////////////////////////////////////////////
+
+// width:   output image width
+// height:  output image height
+// stride:  stride size of input image
+// out:     resulting array (image)
+// src:     input array (image)
+
 __global__ void DownscaleKernel(int width, int height, int stride, float *out, const float* src)
 {
+    // variables for the x and y coordinates of the pixel that the thread is mapped to
     const int ix = threadIdx.x + blockIdx.x * blockDim.x;
     const int iy = threadIdx.y + blockIdx.y * blockDim.y;
 
+    // Exit if the thread is out of bounds of the image
     if (ix >= width-1 || iy >= height-1)
         return;
 
+    // These lines calculate the corresponding coordinates in the original image (src) for the downsampled image (out). 
+    // Each pixel in the downsampled image corresponds to a 2x2 block of pixels in the original image.
     const size_t srcx = ix * 2;
     const size_t srcy = iy * 2;
 
+    // This line computes the downsampled value at the current position (ix, iy) in the output array out. 
+    // It takes the average of the 2x2 block of pixels in the original image centered at (srcx, srcy).
     out[ix + iy * stride] = 0.25f * (src[srcx + srcy*stride] + src[srcx + (srcy+1)*stride] +
                                     src[(srcx+1) + srcy*stride] + src[(srcx+1) + (srcy+1)*stride]);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \brief downscale image
-///
-/// \param[in]  src     image to downscale
-/// \param[in]  width   image width
-/// \param[in]  height  image height
-/// \param[in]  stride  image stride
-/// \param[out] out     result
-///////////////////////////////////////////////////////////////////////////////
+// width:   input image width
+// height:  input image height
+// stride:  stride size of input image
+// out:     resulting array (image)
+// src:     input array (image)
+// newWidth:  output image width
+// newHeight: output image height
 static
 void Downscale(const float *src, int width, int height, int stride,
                int newWidth, int newHeight, int newStride, float *out)
 {
-    dim3 threads(32, 8);
-    dim3 blocks(iDivUp(newWidth, threads.x), iDivUp(newHeight, threads.y));
 
-    DownscaleKernel<<<blocks, threads>>>(newWidth, newHeight, newStride, out, src);
+    dim3 blockDim(32, 8);
+
+    // Calculate the number of blocks needed in each dimension
+    int gridDimX = (newWidth + blockDim.x - 1) / blockDim.x;
+    int gridDimY = (newHeight + blockDim.y - 1) / blockDim.y;
+
+    dim3 gridDim(gridDimX, gridDimY);
+
+    DownscaleKernel<<<gridDim, blockDim>>>(newWidth, newHeight, newStride, out, src);
 }

@@ -1,41 +1,22 @@
-/*
- * Copyright 1993-2015 NVIDIA Corporation.  All rights reserved.
- *
- * NVIDIA Corporation and its licensors retain all intellectual property and
- * proprietary rights in and to this software and related documentation.
- * Any use, reproduction, disclosure, or distribution of this software
- * and related documentation without an express license agreement from
- * NVIDIA Corporation is strictly prohibited.
- *
- * Please refer to the applicable NVIDIA end user license agreement (EULA)
- * associated with this source code for terms and conditions that govern
- * your use of this NVIDIA software.
- *
- */
-
-
 #include "../common.cuh"
 #include <cooperative_groups.h>
 
 namespace cg = cooperative_groups;
 
-///////////////////////////////////////////////////////////////////////////////
-/// \brief one iteration of classical Horn-Schunck method, CUDA kernel.
-///
 /// It is one iteration of Jacobi method for a corresponding linear system.
 /// Template parameters are describe CTA size
-/// \param[in]  du0     current horizontal displacement approximation
-/// \param[in]  dv0     current vertical displacement approximation
-/// \param[in]  Ix      image x derivative
-/// \param[in]  Iy      image y derivative
-/// \param[in]  Iz      temporal derivative
-/// \param[in]  w       width
-/// \param[in]  h       height
-/// \param[in]  s       stride
-/// \param[in]  alpha   degree of smoothness
-/// \param[out] du1     new horizontal displacement approximation
-/// \param[out] dv1     new vertical displacement approximation
-///////////////////////////////////////////////////////////////////////////////
+// du0:     current horizontal displacement approximation
+// dv0:     current vertical displacement approximation
+// Ix:      image x derivative
+// Iy:      image y derivative
+// Iz:      temporal derivative
+// w:       width
+// h:       height
+// s:       stride
+// alpha:   degree of smoothness
+// du1:     new horizontal displacement approximation
+// dv1:     new vertical displacement approximation
+
 template<int bx, int by>
 __global__
 void JacobiIteration(const float *du0,

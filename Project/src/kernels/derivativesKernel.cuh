@@ -1,14 +1,16 @@
 #include "../common.cuh"
-//this file is for computing image spatial derivatives
+//this file is for computing image spatial and temporal derivatives
 // Spacial derivatives define the rate of change of intensity in the image with respect to spatial coordinates (x and y)
 
 
 // width   image width
 // height  image height
-// stride  number of elements in a row
+// stride  stride size of images
 // Ix      x derivative
 // Iy      y derivative
 // Iz      temporal derivative
+// src     first frame
+// target  next frame
 
 __global__ void ComputeDerivativesKernel(int width, int height, int stride,
                                          float *Ix, float *Iy, float *Iz,
@@ -126,7 +128,7 @@ __global__ void ComputeDerivativesKernel(int width, int height, int stride,
 //I1  tracked image
 //w   image width
 //h   image height
-//s   number of elements in a idy (stride)
+//s   stride size of images
 //Ix  x derivative
 //Iy  y derivative
 //Iz  temporal derivative
