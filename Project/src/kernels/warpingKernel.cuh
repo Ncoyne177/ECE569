@@ -1,40 +1,28 @@
-/*
- * Copyright 1993-2015 NVIDIA Corporation.  All rights reserved.
- *
- * NVIDIA Corporation and its licensors retain all intellectual property and
- * proprietary rights in and to this software and related documentation.
- * Any use, reproduction, disclosure, or distribution of this software
- * and related documentation without an express license agreement from
- * NVIDIA Corporation is strictly prohibited.
- *
- * Please refer to the applicable NVIDIA end user license agreement (EULA)
- * associated with this source code for terms and conditions that govern
- * your use of this NVIDIA software.
- *
- */
-
-
 #include "../common.cuh"
 
-///////////////////////////////////////////////////////////////////////////////
-/// \brief warp image with a given displacement field, CUDA kernel.
-/// \param[in]  width   image width
-/// \param[in]  height  image height
-/// \param[in]  stride  image stride
-/// \param[in]  u       horizontal displacement
-/// \param[in]  v       vertical displacement
-/// \param[out] out     result
-///////////////////////////////////////////////////////////////////////////////
+
+// warp image with a given displacement field
+// width   image width
+// height  image height
+// stride  image stride
+// u       horizontal displacement
+// v       vertical displacement
+// out     result image
+// src     input image
 __global__ void WarpingKernel(int width, int height, int stride,
                               const float *u, const float *v, float *out, const float* src)
 {
+    // calculate the x and y index of the pixel
     const int ix = threadIdx.x + blockIdx.x * blockDim.x;
     const int iy = threadIdx.y + blockIdx.y * blockDim.y;
 
+    // find the position of the pixel in the 1D array representation
     const int pos = ix + iy * stride;
 
+    // ignore threads that are out of bounds
     if (ix >= width || iy >= height) return;
 
+    // 
     float x = ((float)ix + u[pos] + 0.5f) / (float)width;
     float y = ((float)iy + v[pos] + 0.5f) / (float)height;
     const int index = x + y * stride;
@@ -42,28 +30,30 @@ __global__ void WarpingKernel(int width, int height, int stride,
     out[pos] = src[index];
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \brief warp image with provided vector field, CUDA kernel wrapper.
-///
+
 /// For each output pixel there is a vector which tells which pixel
 /// from a source image should be mapped to this particular output
 /// pixel.
 /// It is assumed that images and the vector field have the same stride and
 /// resolution.
-/// \param[in]  src source image
-/// \param[in]  w   width
-/// \param[in]  h   height
-/// \param[in]  s   stride
-/// \param[in]  u   horizontal displacement
-/// \param[in]  v   vertical displacement
-/// \param[out] out warped image
-///////////////////////////////////////////////////////////////////////////////
+// src source image
+// w   width
+// h   height
+// s   stride
+// u   horizontal displacement
+// v   vertical displacement
+// out warped image
+// src input image
+
 static
 void WarpImage(const float *src, int w, int h, int s,
                const float *u, const float *v, float *out)
 {
-    dim3 threads(32, 6);
-    dim3 blocks(iDivUp(w, threads.x), iDivUp(h, threads.y));
+    dim3 blockDim(32, 6);
+    int gridDimX = (w + blockDim.x - 1) / blockDim.x;
+    int gridDimY = (h + blockDim.y - 1) / blockDim.y;
+    dim3 gridDim(gridDimX, gridDimY);
 
-    WarpingKernel<<<blocks, threads>>>(w, h, s, u, v, out, src);
+
+    WarpingKernel<<<gridDim, blockDim>>>(w, h, s, u, v, out, src);
 }
