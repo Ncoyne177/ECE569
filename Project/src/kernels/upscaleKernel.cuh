@@ -17,7 +17,7 @@ __global__ void UpscaleKernel(int width, int height, int stride, float scale, fl
     //verify that the thread is within the bounds of the array
     if (ix >= width || iy >= height) return;
 
-    // calculate the indexing for the input vector
+    // calculate the indexing for the input array
     float x = ((float)ix - 0.5f) * 0.5f;
     float y = ((float)iy - 0.5f) * 0.5f;
     const size_t index = x + y*stride;
