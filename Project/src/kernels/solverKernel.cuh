@@ -161,10 +161,11 @@ void SolveForUpdate(const float *du0,
                     float *dv1)
 {
     // CTA size
-    dim3 threads(32, 6);
+    dim3 blockDim(32, 6);
     // grid size
-    dim3 blocks(iDivUp(w, threads.x), iDivUp(h, threads.y));
+    dim3 gridDim((w + blockDim.x - 1) / blockDim.x, (h + blockDim.y - 1) / blockDim.y);
 
-    JacobiIteration<32,6><<<blocks, threads>>>(du0, dv0, Ix, Iy, Iz,
+
+    JacobiIteration<32,6><<<gridDim, blockDim>>>(du0, dv0, Ix, Iy, Iz,
                                                w, h, s, alpha, du1, dv1);
 }
