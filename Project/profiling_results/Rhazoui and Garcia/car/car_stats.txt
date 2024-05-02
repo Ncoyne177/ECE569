@@ -1,0 +1,105 @@
+Generating SQLite file car_profile.sqlite from car_profile.nsys-rep
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)   Min (ns)  Max (ns)   StdDev (ns)           Name         
+ --------  ---------------  ---------  -----------  ----------  --------  ---------  -----------  ----------------------
+     68.8       8828465378         60  147141089.6  94242188.0     31488  444405257  167060899.9  pthread_cond_wait     
+     25.9       3322048300        555    5985672.6     11455.0        74  106475810   15094974.1  futex                 
+      3.8        485316541        262    1852353.2      1460.0       157  100240379   10821415.9  poll                  
+      1.4        176568303      14820      11914.2       698.0       301   14942885     200575.6  ioctl                 
+      0.1         11378581         21     541837.2      1146.0       158   10119937    2197418.4  read                  
+      0.1          6722850         11     611168.2      3640.0        78    6362157    1908843.9  fread                 
+      0.0          1170310          1    1170310.0   1170310.0   1170310    1170310          0.0  pthread_join          
+      0.0           825269          3     275089.7    355096.0     24784     445389     221422.5  pthread_create        
+      0.0           651003        112       5812.5      2741.5       381      71851       9718.8  writev                
+      0.0           518951        623        833.0        20.0        16      47366       3728.3  pthread_cond_signal   
+      0.0           506049         24      21085.4      2686.5       396     338786      69215.3  fopen                 
+      0.0           493534        418       1180.7       209.5       138      37841       2929.5  recvmsg               
+      0.0           395722          3     131907.3    158067.0      2874     234781     118145.9  connect               
+      0.0           285935        214       1336.1        69.5        17      12888       3424.0  pthread_cond_broadcast
+      0.0           256569         18      14253.8       666.5       362     223649      52296.8  open                  
+      0.0           161689          3      53896.3     42790.0     40819      78080      20966.8  sem_timedwait         
+      0.0           104228         31       3362.2      2418.0       487      11928       2466.2  mmap                  
+      0.0            47585          6       7930.8      6258.0       260      18480       8421.0  putc                  
+      0.0            46877          9       5208.6      1337.0       110      14204       6504.6  write                 
+      0.0            43668          5       8733.6      1482.0       584      37915      16324.0  open64                
+      0.0            41258          3      13752.7      3153.0      2984      35121      18505.7  socket                
+      0.0            37772          3      12590.7     17666.0      1004      19102      10060.0  pipe2                 
+      0.0            36971         76        486.5        32.0        27      20458       2555.8  fgets                 
+      0.0            20871         17       1227.7       867.0       315       4230        979.0  fclose                
+      0.0             9946          9       1105.1       607.0        50       3843       1389.7  fwrite                
+      0.0             8171          8       1021.4       889.0       341       1598        490.2  recv                  
+      0.0             7023         14        501.6       413.0        95       1745        447.3  fcntl                 
+      0.0             4037          1       4037.0      4037.0      4037       4037          0.0  signal                
+      0.0             3650          2       1825.0      1825.0      1054       2596       1090.4  munmap                
+      0.0             2295          1       2295.0      2295.0      2295       2295          0.0  shutdown              
+      0.0             1615          1       1615.0      1615.0      1615       1615          0.0  fopen64               
+      0.0             1171          7        167.3       113.0        28        443        164.2  fflush                
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)   Med (ns)  Min (ns)  Max (ns)   StdDev (ns)                Name               
+ --------  ---------------  ---------  ----------  --------  --------  ---------  -----------  ---------------------------------
+     47.9        142043132         14  10145938.0    4398.5      1249  141063465   37680826.0  cudaMalloc                       
+     42.5        126208907      13956      9043.3    2522.0      1950    5148812      91538.4  cudaLaunchKernel                 
+      8.3         24506278         24   1021094.9  144587.5     76325    6268145    1995284.2  cudaMemcpy                       
+      0.9          2586508        372      6953.0    3588.0      2215      63793      10007.7  cudaMemset                       
+      0.5          1458686         14    104191.9    5577.0      1279     479288     160014.9  cudaFree                         
+      0.0             1582          1      1582.0    1582.0      1582       1582          0.0  cudaGetDeviceProperties_v2_v12000
+      0.0              657          1       657.0     657.0       657        657          0.0  cuModuleGetLoadingMode           
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain CUDA kernel data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain GPU memory data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain GPU memory data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain OpenMP event data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain DX11 CPU debug markers.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain DX12 GPU debug markers.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain DX12 CPU debug markers.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain WDDM context data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [car_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: car_profile.sqlite does not contain OpenACC event data.
+

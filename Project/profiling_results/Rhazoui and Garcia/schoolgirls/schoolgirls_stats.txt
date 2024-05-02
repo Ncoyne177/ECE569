@@ -1,0 +1,107 @@
+Generating SQLite file schoolgirls_profile.sqlite from schoolgirls_profile.nsys-rep
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)    Min (ns)  Max (ns)   StdDev (ns)           Name         
+ --------  ---------------  ---------  -----------  -----------  --------  ---------  -----------  ----------------------
+     51.9      47903595763        140  342168541.2  456935675.0    175029  666060117  213483077.9  pthread_cond_wait     
+     44.4      40999854051       5475    7488557.8      33143.0        74  426147018   20773392.7  futex                 
+      2.7       2460611177        685    3592133.1       1033.0       142  107645494   17739156.1  poll                  
+      0.9        865843633     191970       4510.3        640.0       289    7489993      87694.8  ioctl                 
+      0.0         15578242          6    2596373.7    2040749.0      7276    6621906    2940402.1  pthread_rwlock_wrlock 
+      0.0          8675440         11     788676.4       4526.0       202    7613621    2270811.7  fread                 
+      0.0          5708773        308      18535.0       9558.5       300     253553      26050.5  writev                
+      0.0          2052670       1191       1723.5         29.0        16      85081       5594.9  pthread_cond_signal   
+      0.0          1804064         62      29097.8       8471.0       176     318473      66443.4  read                  
+      0.0          1573373        902       1744.3        240.0       142      34572       3605.0  recvmsg               
+      0.0          1334729          3     444909.7     520445.0    118958     695326     295515.2  pthread_create        
+      0.0           974836          3     324945.3     472952.0     18555     483329     265392.5  connect               
+      0.0           798097         24      33254.0       3065.5       408     677103     137293.4  fopen                 
+      0.0           675621          1     675621.0     675621.0    675621     675621          0.0  pthread_join          
+      0.0           338212         18      18789.6        607.0       365     308722      72375.4  open                  
+      0.0           326806       1891        172.8         25.0        15      37769       1424.2  pthread_cond_broadcast
+      0.0           238227          3      79409.0      81427.0     60224      96576      18259.8  sem_timedwait         
+      0.0           108100         31       3487.1       2280.0       398      11694       2610.1  mmap                  
+      0.0            58808          3      19602.7      17708.0     13811      27289       6935.9  socket                
+      0.0            45882          6       7647.0       5502.0       169      20148       8463.0  putc                  
+      0.0            45725          3      15241.7       5422.0       173      40130      21713.1  pthread_mutex_lock    
+      0.0            44089          9       4898.8       1121.0       109      14048       6045.5  write                 
+      0.0            41476          5       8295.2       1401.0       605      34953      14932.6  open64                
+      0.0            34897         76        459.2         29.5        27      19560       2436.3  fgets                 
+      0.0            31904          3      10634.7       2017.0       515      29372      16244.4  pipe2                 
+      0.0            31723          9       3524.8        420.0        52      26805       8758.7  fwrite                
+      0.0            30889         14       2206.4        367.5        87      26059       6869.4  fcntl                 
+      0.0            21126         17       1242.7        989.0       299       3853        930.2  fclose                
+      0.0            13222          8       1652.8        895.5       494       3967       1392.1  recv                  
+      0.0             4420          2       2210.0       2210.0      1377       3043       1178.0  munmap                
+      0.0             3582          1       3582.0       3582.0      3582       3582          0.0  signal                
+      0.0             3268          1       3268.0       3268.0      3268       3268          0.0  shutdown              
+      0.0             1768          1       1768.0       1768.0      1768       1768          0.0  fopen64               
+      0.0              978          7        139.7        151.0        27        338        114.9  fflush                
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)   Med (ns)  Min (ns)  Max (ns)   StdDev (ns)                Name               
+ --------  ---------------  ---------  ----------  --------  --------  ---------  -----------  ---------------------------------
+     67.9       1249348190     186080      6714.0    2369.0      1843    6659548      86150.8  cudaLaunchKernel                 
+     22.7        417756876        320   1305490.2  116020.0     49367    9456042    2319575.9  cudaMemcpy                       
+      7.8        143015225         14  10215373.2    3077.5       758  142148252   37973019.8  cudaMalloc                       
+      1.6         29277354       4960      5902.7    2799.5      2084    2086753      51093.8  cudaMemset                       
+      0.1          1748254         14    124875.3    2742.0       861     569905     185504.5  cudaFree                         
+      0.0             1606          1      1606.0    1606.0      1606       1606          0.0  cudaGetDeviceProperties_v2_v12000
+      0.0              603          1       603.0     603.0       603        603          0.0  cuModuleGetLoadingMode           
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain CUDA kernel data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain GPU memory data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain GPU memory data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain OpenMP event data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain DX11 CPU debug markers.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain DX12 GPU debug markers.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain DX12 CPU debug markers.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain WDDM context data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [schoolgirls_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: schoolgirls_profile.sqlite does not contain OpenACC event data.
+

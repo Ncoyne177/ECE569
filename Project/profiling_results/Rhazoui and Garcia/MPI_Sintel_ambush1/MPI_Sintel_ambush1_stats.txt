@@ -1,0 +1,106 @@
+Generating SQLite file MPI_Sintel_ambush1_profile.sqlite from MPI_Sintel_ambush1_profile.nsys-rep
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)           Name         
+ --------  ---------------  ---------  -----------  -----------  --------  ----------  -----------  ----------------------
+     52.9      32325777586         84  384830685.5  176839941.5    127713  1249477503  394541374.1  pthread_cond_wait     
+     43.6      26668601571       2307   11559862.0      31871.0        75   199904267   25543018.4  futex                 
+      2.8       1718303912        480    3579799.8        826.5       143   100374512   17430803.1  poll                  
+      0.6        370120220      55642       6651.8        669.0       330    12267489     118117.6  ioctl                 
+      0.0         21480933         51     421194.8       4168.0       134    18231947    2551508.2  read                  
+      0.0         12946432         11    1176948.4       4589.0       114    12245222    3674218.8  fread                 
+      0.0          5200158        266      19549.5      18350.5       344      147756      20824.1  writev                
+      0.0          1170552        891       1313.8         27.0        16       40445       4991.9  pthread_cond_signal   
+      0.0          1143970         24      47665.4       2623.0       442     1007650     204696.2  fopen                 
+      0.0          1078517        544       1982.6        256.0       139      150117       7479.5  recvmsg               
+      0.0           899128          1     899128.0     899128.0    899128      899128          0.0  pthread_join          
+      0.0           802545          3     267515.0     345689.0     30960      425896     208751.0  pthread_create        
+      0.0           501603          3     167201.0     185535.0      3573      312495     155274.9  connect               
+      0.0           337706       1065        317.1         27.0        15       40569       2144.3  pthread_cond_broadcast
+      0.0           206114         18      11450.8        763.0       479      169382      39490.0  open                  
+      0.0           181198         31       5845.1       2678.0       509       32786       8413.2  mmap                  
+      0.0           138970          3      46323.3      47494.0     34071       57405      11711.0  sem_timedwait         
+      0.0            70784          3      23594.7      20405.0      3450       46929      21914.3  socket                
+      0.0            55994          5      11198.8       1406.0       600       49638      21506.1  open64                
+      0.0            54085          9       6009.4       1216.0       123       24150       8416.2  write                 
+      0.0            51100          6       8516.7       5914.0       330       22115       9453.4  putc                  
+      0.0            36224         76        476.6         29.0        27       20810       2599.1  fgets                 
+      0.0            30717          2      15358.5      15358.5     11206       19511       5872.5  pthread_mutex_lock    
+      0.0            21502         14       1535.9        341.0        87       16541       4326.5  fcntl                 
+      0.0            20992         17       1234.8       1068.0       329        4346       1006.5  fclose                
+      0.0            17996          1      17996.0      17996.0     17996       17996          0.0  shutdown              
+      0.0            11025          9       1225.0        428.0        50        5754       1890.0  fwrite                
+      0.0             7357          8        919.6        860.5       408        1772        459.9  recv                  
+      0.0             6827          3       2275.7       2291.0       966        3570       1302.1  pipe2                 
+      0.0             4900          2       2450.0       2450.0      1255        3645       1690.0  munmap                
+      0.0             4839          1       4839.0       4839.0      4839        4839          0.0  signal                
+      0.0             1759          1       1759.0       1759.0      1759        1759          0.0  fopen64               
+      0.0             1102          7        157.4        179.0        29         295        124.8  fflush                
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)   Med (ns)  Min (ns)  Max (ns)   StdDev (ns)                Name               
+ --------  ---------------  ---------  ----------  --------  --------  ---------  -----------  ---------------------------------
+     44.0        481038051         92   5228674.5  315535.0    184221   23594023    8799041.7  cudaMemcpy                       
+     40.4        441848609      53498      8259.2    2471.0      1927   12549959     101402.4  cudaLaunchKernel                 
+     13.9        151713774         14  10836698.1  202931.0    188341  148884892   39733016.8  cudaMalloc                       
+      1.5         16590414       1426     11634.2    3545.5      2135    2171902     101930.1  cudaMemset                       
+      0.2          2594234         14    185302.4  129643.0    113901     605541     131560.4  cudaFree                         
+      0.0             3304          1      3304.0    3304.0      3304       3304          0.0  cudaGetDeviceProperties_v2_v12000
+      0.0              740          1       740.0     740.0       740        740          0.0  cuModuleGetLoadingMode           
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain CUDA kernel data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain GPU memory data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain GPU memory data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain OpenMP event data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain DX11 CPU debug markers.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain DX12 GPU debug markers.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain DX12 CPU debug markers.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain WDDM context data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [MPI_Sintel_ambush1_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: MPI_Sintel_ambush1_profile.sqlite does not contain OpenACC event data.
+

@@ -1,0 +1,110 @@
+
+NOTICE: Existing SQLite export found: basketball_profile.sqlite
+        It is assumed file was previously exported from: basketball_profile.nsys-rep
+        Consider using --force-export=true if needed.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)    Min (ns)  Max (ns)   StdDev (ns)           Name         
+ --------  ---------------  ---------  -----------  -----------  --------  ---------  -----------  ----------------------
+     64.8      14141715246         47  300887558.4  241471255.0    124324  710868985  232609812.3  pthread_cond_wait     
+     30.6       6683436750        889    7517926.6      23152.0        78  136070821   17759323.1  futex                 
+      3.6        784924633        294    2669811.7       2508.0       154  100265153   14564205.6  poll                  
+      0.9        207211531      19674      10532.3        666.0       268   14638412     172899.9  ioctl                 
+      0.0          8114617         11     737692.5       3988.0        77    7255531    2168765.8  fread                 
+      0.0          1513359        130      11641.2       3843.0      1344     236514      26065.2  writev                
+      0.0          1351062         32      42220.7       1444.0       133     293092      80833.3  read                  
+      0.0           766273         24      31928.0       2683.5       402     639554     129725.4  fopen                 
+      0.0           720471        437       1648.7        275.0       143      82925       5013.0  recvmsg               
+      0.0           667796        657       1016.4         29.0        15      43522       4301.8  pthread_cond_signal   
+      0.0           596528          3     198842.7     242588.0      3846     350094     177220.7  connect               
+      0.0           589975          3     196658.3     164769.0     31452     393754     183244.1  pthread_create        
+      0.0           574675          1     574675.0     574675.0    574675     574675          0.0  pthread_join          
+      0.0           369494          3     123164.7     146397.0     57967     165130      57234.5  sem_timedwait         
+      0.0           242112         18      13450.7        634.5       387     208728      48778.3  open                  
+      0.0           155743         31       5024.0       2958.0       458      50922       8951.0  mmap                  
+      0.0           140834        432        326.0         28.5        16      20556       1854.0  pthread_cond_broadcast
+      0.0            80228          9       8914.2       1654.0       109      45026      14695.4  write                 
+      0.0            50753         17       2985.5        938.0       329      25929       6262.4  fclose                
+      0.0            48240          6       8040.0       7108.0       240      18115       8430.5  putc                  
+      0.0            36686         76        482.7         32.0        27      20267       2547.4  fgets                 
+      0.0            20902          3       6967.3       9240.0       194      11468       5970.7  pthread_mutex_lock    
+      0.0            13524          5       2704.8       1486.0       648       7490       2787.9  open64                
+      0.0            13304          9       1478.2        609.0        55       5285       2096.2  fwrite                
+      0.0            12834          8       1604.3        947.5       620       4655       1385.2  recv                  
+      0.0            12741          3       4247.0       4463.0      3461       4817        703.3  socket                
+      0.0             9230          3       3076.7       2995.0       602       5633       2516.5  pipe2                 
+      0.0             8493         14        606.6        393.5       106       2416        610.1  fcntl                 
+      0.0             4709          1       4709.0       4709.0      4709       4709          0.0  signal                
+      0.0             4279          2       2139.5       2139.5      1676       2603        655.5  munmap                
+      0.0             3576          1       3576.0       3576.0      3576       3576          0.0  shutdown              
+      0.0             2219          1       2219.0       2219.0      2219       2219          0.0  fopen64               
+      0.0             1029          7        147.0        111.0        27        361        133.1  fflush                
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls   Avg (ns)   Med (ns)  Min (ns)  Max (ns)   StdDev (ns)                Name               
+ --------  ---------------  ---------  ----------  --------  --------  ---------  -----------  ---------------------------------
+     46.6        232849468         14  16632104.9  331532.0    187609  228602430   61009359.3  cudaMalloc                       
+     31.9        159425216      18608      8567.6    2536.0      2000    7744928     103999.2  cudaLaunchKernel                 
+     20.2        100955406         32   3154856.4  281243.5    169490   16636463    6050713.7  cudaMemcpy                       
+      0.6          3190879        496      6433.2    3802.0      2142     119903      10438.7  cudaMemset                       
+      0.6          3128338         14    223452.7  177239.0    149625     565379     112845.7  cudaFree                         
+      0.0             1602          1      1602.0    1602.0      1602       1602          0.0  cudaGetDeviceProperties_v2_v12000
+      0.0              727          1       727.0     727.0       727        727          0.0  cuModuleGetLoadingMode           
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain CUDA kernel data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain GPU memory data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain GPU memory data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain OpenMP event data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain DX11 CPU debug markers.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain DX12 GPU debug markers.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain DX12 CPU debug markers.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain WDDM context data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain CUDA memory transfers data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [basketball_profile.sqlite] with [/usr/local/cuda-12.3/nsight-systems-2023.3.3/host-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: basketball_profile.sqlite does not contain OpenACC event data.
+
