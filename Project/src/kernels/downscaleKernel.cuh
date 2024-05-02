@@ -21,7 +21,7 @@ __global__ void DownscaleKernel(int width, int height, int stride, int newStride
     // Each pixel in the downsampled image corresponds to a 2x2 block of pixels in the original image.
     float outx = ((float)ix - 0.5f)* 0.5f;
     float outy = ((float)iy - 0.5f)* 0.5f;
-    const size_t index = outx + outy*stride;
+    const size_t index = outx + outy*newStride;
     // the tmp variable stores a downscaled version of the target pixel in the input image
     const float tmp = 0.25f * src[ix + iy*stride];
     // The output image will be updated by four different threads, so an atomicAdd function is used

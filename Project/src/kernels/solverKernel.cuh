@@ -17,7 +17,6 @@ namespace cg = cooperative_groups;
 // du1:     new horizontal displacement approximation
 // dv1:     new vertical displacement approximation
 
-template<int bx, int by>
 __global__
 void JacobiIteration(const float *du0,
                      const float *dv0,
@@ -29,11 +28,10 @@ void JacobiIteration(const float *du0,
                      float *du1,
                      float *dv1)
 {
-    // Handle to thread block group
-    cg::thread_block cta = cg::this_thread_block();
-
-    volatile __shared__ float du[(bx + 2) * (by + 2)];
-    volatile __shared__ float dv[(bx + 2) * (by + 2)];
+    // create shared memory
+    extern __shared__ float shared_mem[];
+    float* du = shared_mem;
+    float* dv = (float*)&du[(blockDim.x+2) * (blockDim.y+2)];
 
     const int ix = threadIdx.x + blockIdx.x * blockDim.x;
     const int iy = threadIdx.y + blockIdx.y * blockDim.y;
@@ -42,7 +40,7 @@ void JacobiIteration(const float *du0,
     const int pos = min(ix, w - 1) + min(iy, h - 1) * s;
 
     // position within shared memory array
-    const int shMemPos = threadIdx.x + 1 + (threadIdx.y + 1) * (bx + 2);
+    const int shMemPos = threadIdx.x + 1 + (threadIdx.y + 1) * (blockDim.x + 2);
 
     // Load data to shared memory.
     // load tile being processed
@@ -74,8 +72,8 @@ void JacobiIteration(const float *du0,
         dv[smPos] = dv0[gmPos];
 
         // row above the tile
-        y = min(bsy + by, h - 1);
-        smPos += (by + 1) * (bx + 2);
+        y = min(bsy + blockDim.y, h - 1);
+        smPos += (blockDim.y + 1) * (blockDim.x + 2);
         gmPos  = y * s + x;
         du[smPos] = du0[gmPos];
         dv[smPos] = dv0[gmPos];
@@ -95,24 +93,24 @@ void JacobiIteration(const float *du0,
         y = min(bsy + threadIdx.x, h - 1);
         // column to the left
         x = max(bsx - 1, 0);
-        smPos = bx + 2 + threadIdx.x * (bx + 2);
+        smPos = blockDim.x + 2 + threadIdx.x * (blockDim.x + 2);
         gmPos = x + y * s;
 
         // check if we are within tile
-        if (threadIdx.x < by)
+        if (threadIdx.x < blockDim.y)
         {
             du[smPos] = du0[gmPos];
             dv[smPos] = dv0[gmPos];
             // column to the right
-            x = min(bsx + bx, w - 1);
+            x = min(bsx + blockDim.x, w - 1);
             gmPos  = y * s + x;
-            smPos += bx + 1;
+            smPos += blockDim.x + 1;
             du[smPos] = du0[gmPos];
             dv[smPos] = dv0[gmPos];
         }
     }
 
-    cg::sync(cta);
+    __syncthreads();
 
     if (ix >= w || iy >= h) return;
 
@@ -120,8 +118,8 @@ void JacobiIteration(const float *du0,
     int left, right, up, down;
     left  = shMemPos - 1;
     right = shMemPos + 1;
-    up    = shMemPos + bx + 2;
-    down  = shMemPos - bx - 2;
+    up    = shMemPos + blockDim.x + 2;
+    down  = shMemPos - blockDim.x - 2;
 
     float sumU = (du[left] + du[right] + du[up] + du[down]) * 0.25f;
     float sumV = (dv[left] + dv[right] + dv[up] + dv[down]) * 0.25f;
@@ -133,22 +131,21 @@ void JacobiIteration(const float *du0,
     dv1[pos] = sumV - Iy[pos] * frac;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \brief one iteration of classical Horn-Schunck method, CUDA kernel wrapper.
-///
+
+
 /// It is one iteration of Jacobi method for a corresponding linear system.
-/// \param[in]  du0     current horizontal displacement approximation
-/// \param[in]  dv0     current vertical displacement approximation
-/// \param[in]  Ix      image x derivative
-/// \param[in]  Iy      image y derivative
-/// \param[in]  Iz      temporal derivative
-/// \param[in]  w       width
-/// \param[in]  h       height
-/// \param[in]  s       stride
-/// \param[in]  alpha   degree of smoothness
-/// \param[out] du1     new horizontal displacement approximation
-/// \param[out] dv1     new vertical displacement approximation
-///////////////////////////////////////////////////////////////////////////////
+// du0     current horizontal displacement approximation
+// dv0     current vertical displacement approximation
+// Ix      image x derivative
+// Iy      image y derivative
+// Iz      temporal derivative
+// w       width
+// h       height
+// s       stride
+// alpha   degree of smoothness
+// du1     new horizontal displacement approximation
+// dv1     new vertical displacement approximation
+
 static
 void SolveForUpdate(const float *du0,
                     const float *dv0,
@@ -160,12 +157,13 @@ void SolveForUpdate(const float *du0,
                     float *du1,
                     float *dv1)
 {
-    // CTA size
+    // block size
     dim3 blockDim(32, 6);
-    // grid size
     dim3 gridDim((w + blockDim.x - 1) / blockDim.x, (h + blockDim.y - 1) / blockDim.y);
 
+    // determine shared memory size and call the kernel
+    size_t shared_mem_size = 2 * (blockDim.x+2) * (blockDim.y+2) * sizeof(float);
 
-    JacobiIteration<32,6><<<gridDim, blockDim>>>(du0, dv0, Ix, Iy, Iz,
+    JacobiIteration<<<gridDim, blockDim, shared_mem_size>>>(du0, dv0, Ix, Iy, Iz,
                                                w, h, s, alpha, du1, dv1);
 }
